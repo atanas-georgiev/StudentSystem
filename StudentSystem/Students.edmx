@@ -22,7 +22,7 @@
           <Property Name="TeacherID" Type="int" Nullable="false" />
           <Property Name="HoursPerWeek" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="SpecialtyAndSemester">
+        <EntityType Name="SpecialtyAndSemesters">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -43,17 +43,6 @@
           <Property Name="Semester" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="254" Nullable="false" />
           <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="SpecialtyAndSemesterId" Type="int" />
-        </EntityType>
-        <EntityType Name="sysdiagrams">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="principal_id" Type="int" Nullable="false" />
-          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="version" Type="int" />
-          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="Teachers">
           <Key>
@@ -78,23 +67,11 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Students_SpecialtyAndSemester">
-          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="0..1" />
-          <End Role="Students" Type="Self.Students" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SpecialtyAndSemester">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Students">
-              <PropertyRef Name="SpecialtyAndSemesterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="SpecialtyAndSemesterID_const">
-          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="1" />
+          <End Role="SpecialtyAndSemesters" Type="Self.SpecialtyAndSemesters" Multiplicity="1" />
           <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SpecialtyAndSemester">
+            <Principal Role="SpecialtyAndSemesters">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ConnectionTable">
@@ -117,20 +94,15 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
         <EntityContainer Name="StudentsModelStoreContainer">
           <EntitySet Name="ConnectionTable" EntityType="Self.ConnectionTable" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Disciplines" EntityType="Self.Disciplines" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="SpecialtyAndSemester" EntityType="Self.SpecialtyAndSemester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialtyAndSemesters" EntityType="Self.SpecialtyAndSemesters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="DisciplineID_const" Association="Self.DisciplineID_const">
             <End Role="Disciplines" EntitySet="Disciplines" />
             <End Role="ConnectionTable" EntitySet="ConnectionTable" />
           </AssociationSet>
-          <AssociationSet Name="FK_Students_SpecialtyAndSemester" Association="Self.FK_Students_SpecialtyAndSemester">
-            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemester" />
-            <End Role="Students" EntitySet="Students" />
-          </AssociationSet>
           <AssociationSet Name="SpecialtyAndSemesterID_const" Association="Self.SpecialtyAndSemesterID_const">
-            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemester" />
+            <End Role="SpecialtyAndSemesters" EntitySet="SpecialtyAndSemesters" />
             <End Role="ConnectionTable" EntitySet="ConnectionTable" />
           </AssociationSet>
           <AssociationSet Name="TeacherID_const" Association="Self.TeacherID_const">
@@ -151,7 +123,7 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           <Property Name="SpecialtyAndSemesterID" Type="Int32" Nullable="false" />
           <Property Name="DisciplineID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Discipline" Relationship="Self.DisciplineID_const" FromRole="ConnectionTable" ToRole="Disciplines" />
-          <NavigationProperty Name="SpecialtyAndSemester" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="ConnectionTable" ToRole="SpecialtyAndSemester" />
+          <NavigationProperty Name="SpecialtyAndSemester" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="ConnectionTable" ToRole="SpecialtyAndSemesters" />
         </EntityType>
         <EntityType Name="Discipline">
           <Key>
@@ -171,8 +143,7 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           <Property Name="ID" Type="Int32" Nullable="false" />
           <Property Name="Specialty" Type="String" MaxLength="35" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Semester" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="ConnectionTables" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="SpecialtyAndSemester" ToRole="ConnectionTable" />
-          <NavigationProperty Name="Students" Relationship="Self.FK_Students_SpecialtyAndSemester" FromRole="SpecialtyAndSemester" ToRole="Students" />
+          <NavigationProperty Name="ConnectionTables" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="SpecialtyAndSemesters" ToRole="ConnectionTable" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -187,18 +158,6 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           <Property Name="Semester" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TelephoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="SpecialtyAndSemesterId" Type="Int32" />
-          <NavigationProperty Name="SpecialtyAndSemester" Relationship="Self.FK_Students_SpecialtyAndSemester" FromRole="Students" ToRole="SpecialtyAndSemester" />
-        </EntityType>
-        <EntityType Name="sysdiagram">
-          <Key>
-            <PropertyRef Name="diagram_id" />
-          </Key>
-          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="principal_id" Type="Int32" Nullable="false" />
-          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="version" Type="Int32" />
-          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="Teacher">
           <Key>
@@ -222,10 +181,10 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           </ReferentialConstraint>
         </Association>
         <Association Name="SpecialtyAndSemesterID_const">
-          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="1" />
+          <End Role="SpecialtyAndSemesters" Type="Self.SpecialtyAndSemester" Multiplicity="1" />
           <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="SpecialtyAndSemester">
+            <Principal Role="SpecialtyAndSemesters">
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="ConnectionTable">
@@ -245,40 +204,23 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Students_SpecialtyAndSemester">
-          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="0..1" />
-          <End Role="Students" Type="Self.Student" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SpecialtyAndSemester">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="Students">
-              <PropertyRef Name="SpecialtyAndSemesterId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="StudentsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ConnectionTables" EntityType="Self.ConnectionTable" />
           <EntitySet Name="Disciplines" EntityType="Self.Discipline" />
           <EntitySet Name="SpecialtyAndSemesters" EntityType="Self.SpecialtyAndSemester" />
           <EntitySet Name="Students" EntityType="Self.Student" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="Teachers" EntityType="Self.Teacher" />
           <AssociationSet Name="DisciplineID_const" Association="Self.DisciplineID_const">
             <End Role="Disciplines" EntitySet="Disciplines" />
             <End Role="ConnectionTable" EntitySet="ConnectionTables" />
           </AssociationSet>
           <AssociationSet Name="SpecialtyAndSemesterID_const" Association="Self.SpecialtyAndSemesterID_const">
-            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemesters" />
+            <End Role="SpecialtyAndSemesters" EntitySet="SpecialtyAndSemesters" />
             <End Role="ConnectionTable" EntitySet="ConnectionTables" />
           </AssociationSet>
           <AssociationSet Name="TeacherID_const" Association="Self.TeacherID_const">
             <End Role="Teachers" EntitySet="Teachers" />
             <End Role="Disciplines" EntitySet="Disciplines" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Students_SpecialtyAndSemester" Association="Self.FK_Students_SpecialtyAndSemester">
-            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemesters" />
-            <End Role="Students" EntitySet="Students" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -308,7 +250,7 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           </EntitySetMapping>
           <EntitySetMapping Name="SpecialtyAndSemesters">
             <EntityTypeMapping TypeName="StudentsModel.SpecialtyAndSemester">
-              <MappingFragment StoreEntitySet="SpecialtyAndSemester">
+              <MappingFragment StoreEntitySet="SpecialtyAndSemesters">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Specialty" ColumnName="Specialty" />
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -327,18 +269,6 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
-                <ScalarProperty Name="SpecialtyAndSemesterId" ColumnName="SpecialtyAndSemesterId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="StudentsModel.sysdiagram">
-              <MappingFragment StoreEntitySet="sysdiagrams">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
-                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
-                <ScalarProperty Name="version" ColumnName="version" />
-                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

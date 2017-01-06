@@ -18,7 +18,6 @@ namespace StudentSystem
         public SpecialtyAndSemester()
         {
             this.ConnectionTables = new HashSet<ConnectionTable>();
-            this.Students = new HashSet<Student>();
         }
     
         public int ID { get; set; }
@@ -27,7 +26,5 @@ namespace StudentSystem
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ConnectionTable> ConnectionTables { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Student> Students { get; set; }
     }
 }

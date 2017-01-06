@@ -11,9 +11,11 @@ namespace StudentSystem
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Student
     {
+        [Key]
         public int FacultyNumber { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -23,8 +25,5 @@ namespace StudentSystem
         public int Semester { get; set; }
         public string Email { get; set; }
         public string TelephoneNumber { get; set; }
-        public Nullable<int> SpecialtyAndSemesterId { get; set; }
-    
-        public virtual SpecialtyAndSemester SpecialtyAndSemester { get; set; }
     }
 }

@@ -29,7 +29,6 @@ namespace StudentSystem
         public virtual DbSet<Discipline> Disciplines { get; set; }
         public virtual DbSet<SpecialtyAndSemester> SpecialtyAndSemesters { get; set; }
         public virtual DbSet<Student> Students { get; set; }
-        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Teacher> Teachers { get; set; }
     }
 }

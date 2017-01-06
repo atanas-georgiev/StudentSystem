@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using StudentSystem;
+using StudentSystem.Models.Students;
 
 namespace StudentSystem.Controllers
 {
@@ -17,7 +18,7 @@ namespace StudentSystem.Controllers
         // GET: Students
         public ActionResult Index()
         {
-            var students = db.Students.Include(s => s.SpecialtyAndSemester);
+            var students = db.Students;
             return View(students.ToList());
         }
 
@@ -39,8 +40,16 @@ namespace StudentSystem.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
-            ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty");
-            return View();
+            ViewBag.Specialties = new SelectList(db.SpecialtyAndSemesters, "Specialty", "Specialty");
+            ViewBag.Semesters = new SelectList(db.SpecialtyAndSemesters, "Semester", "Semester");
+
+            var FacultyNumber = 5000;
+            if (db.Students.Any())
+            {
+                FacultyNumber += db.Students.Count();
+            }
+
+            return View(new AddStudentViewModel() { FacultyNumber = FacultyNumber });
         }
 
         // POST: Students/Create
@@ -48,17 +57,39 @@ namespace StudentSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FacultyNumber,FirstName,LastName,Age,Sex,Specialty,Semester,Email,TelephoneNumber,SpecialtyAndSemesterId")] Student student)
+        public ActionResult Create(AddStudentViewModel model)
         {
             if (ModelState.IsValid)
             {
+                var student = new Student()
+                {
+                    FacultyNumber = model.FacultyNumber,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Age = model.Age,
+                    Specialty = model.Specialty,
+                    Sex = model.Sex,
+                    Semester = model.Semester,
+                    Email = model.Email,
+                    TelephoneNumber = model.TelephoneNumber
+                };
+
                 db.Students.Add(student);
-                db.SaveChanges();
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    var a = 1;
+                }
+                
                 return RedirectToAction("Index");
             }
 
-            ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty", student.SpecialtyAndSemesterId);
-            return View(student);
+            ViewBag.Specialties = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty");
+            ViewBag.Semesters = new SelectList(db.SpecialtyAndSemesters, "ID", "Semester");
+            return View(model);
         }
 
         // GET: Students/Edit/5
@@ -73,7 +104,7 @@ namespace StudentSystem.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty", student.SpecialtyAndSemesterId);
+            //ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty", student.SpecialtyAndSemesterId);
             return View(student);
         }
 
@@ -90,7 +121,7 @@ namespace StudentSystem.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty", student.SpecialtyAndSemesterId);
+            //ViewBag.SpecialtyAndSemesterId = new SelectList(db.SpecialtyAndSemesters, "ID", "Specialty", student.SpecialtyAndSemesterId);
             return View(student);
         }
 

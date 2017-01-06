@@ -35,9 +35,6 @@
         <th>
             @Html.DisplayNameFor(model => model.TelephoneNumber)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.SpecialtyAndSemester.Specialty)
-        </th>
         <th></th>
     </tr>
 
@@ -66,9 +63,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TelephoneNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.SpecialtyAndSemester.Specialty)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.FacultyNumber }) |
