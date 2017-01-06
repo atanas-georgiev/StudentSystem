@@ -1,0 +1,377 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="StudentsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ConnectionTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="SpecialtyAndSemesterID" Type="int" Nullable="false" />
+          <Property Name="DisciplineID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Disciplines">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="48" Nullable="false" />
+          <Property Name="TeacherID" Type="int" Nullable="false" />
+          <Property Name="HoursPerWeek" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SpecialtyAndSemester">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="Specialty" Type="nvarchar" MaxLength="35" Nullable="false" />
+          <Property Name="Semester" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Students">
+          <Key>
+            <PropertyRef Name="FacultyNumber" />
+          </Key>
+          <Property Name="FacultyNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Age" Type="int" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Specialty" Type="nvarchar" MaxLength="35" Nullable="false" />
+          <Property Name="Semester" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="254" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SpecialtyAndSemesterId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Teachers">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="12" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6035: The relationship 'Composite' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="Composite" />-->
+        <Association Name="DisciplineID_const">
+          <End Role="Disciplines" Type="Self.Disciplines" Multiplicity="1" />
+          <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disciplines">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ConnectionTable">
+              <PropertyRef Name="DisciplineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_SpecialtyAndSemester">
+          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Students" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialtyAndSemester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="SpecialtyAndSemesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SpecialtyAndSemesterID_const">
+          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="1" />
+          <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialtyAndSemester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ConnectionTable">
+              <PropertyRef Name="SpecialtyAndSemesterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeacherID_const">
+          <End Role="Teachers" Type="Self.Teachers" Multiplicity="1" />
+          <End Role="Disciplines" Type="Self.Disciplines" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Disciplines">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentsModelStoreContainer">
+          <EntitySet Name="ConnectionTable" EntityType="Self.ConnectionTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Disciplines" EntityType="Self.Disciplines" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SpecialtyAndSemester" EntityType="Self.SpecialtyAndSemester" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Students" EntityType="Self.Students" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teachers" EntityType="Self.Teachers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="DisciplineID_const" Association="Self.DisciplineID_const">
+            <End Role="Disciplines" EntitySet="Disciplines" />
+            <End Role="ConnectionTable" EntitySet="ConnectionTable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_SpecialtyAndSemester" Association="Self.FK_Students_SpecialtyAndSemester">
+            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemester" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+          <AssociationSet Name="SpecialtyAndSemesterID_const" Association="Self.SpecialtyAndSemesterID_const">
+            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemester" />
+            <End Role="ConnectionTable" EntitySet="ConnectionTable" />
+          </AssociationSet>
+          <AssociationSet Name="TeacherID_const" Association="Self.TeacherID_const">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Disciplines" EntitySet="Disciplines" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StudentsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ConnectionTable">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialtyAndSemesterID" Type="Int32" Nullable="false" />
+          <Property Name="DisciplineID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Discipline" Relationship="Self.DisciplineID_const" FromRole="ConnectionTable" ToRole="Disciplines" />
+          <NavigationProperty Name="SpecialtyAndSemester" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="ConnectionTable" ToRole="SpecialtyAndSemester" />
+        </EntityType>
+        <EntityType Name="Discipline">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="48" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="HoursPerWeek" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ConnectionTables" Relationship="Self.DisciplineID_const" FromRole="Disciplines" ToRole="ConnectionTable" />
+          <NavigationProperty Name="Teacher" Relationship="Self.TeacherID_const" FromRole="Disciplines" ToRole="Teachers" />
+        </EntityType>
+        <EntityType Name="SpecialtyAndSemester">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Specialty" Type="String" MaxLength="35" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Semester" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ConnectionTables" Relationship="Self.SpecialtyAndSemesterID_const" FromRole="SpecialtyAndSemester" ToRole="ConnectionTable" />
+          <NavigationProperty Name="Students" Relationship="Self.FK_Students_SpecialtyAndSemester" FromRole="SpecialtyAndSemester" ToRole="Students" />
+        </EntityType>
+        <EntityType Name="Student">
+          <Key>
+            <PropertyRef Name="FacultyNumber" />
+          </Key>
+          <Property Name="FacultyNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Age" Type="Int32" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Specialty" Type="String" MaxLength="35" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Semester" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TelephoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SpecialtyAndSemesterId" Type="Int32" />
+          <NavigationProperty Name="SpecialtyAndSemester" Relationship="Self.FK_Students_SpecialtyAndSemester" FromRole="Students" ToRole="SpecialtyAndSemester" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="12" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="16" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Disciplines" Relationship="Self.TeacherID_const" FromRole="Teachers" ToRole="Disciplines" />
+        </EntityType>
+        <Association Name="DisciplineID_const">
+          <End Role="Disciplines" Type="Self.Discipline" Multiplicity="1" />
+          <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disciplines">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ConnectionTable">
+              <PropertyRef Name="DisciplineID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SpecialtyAndSemesterID_const">
+          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="1" />
+          <End Role="ConnectionTable" Type="Self.ConnectionTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialtyAndSemester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="ConnectionTable">
+              <PropertyRef Name="SpecialtyAndSemesterID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="TeacherID_const">
+          <End Role="Teachers" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Disciplines" Type="Self.Discipline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teachers">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Disciplines">
+              <PropertyRef Name="TeacherID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Students_SpecialtyAndSemester">
+          <End Role="SpecialtyAndSemester" Type="Self.SpecialtyAndSemester" Multiplicity="0..1" />
+          <End Role="Students" Type="Self.Student" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SpecialtyAndSemester">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Students">
+              <PropertyRef Name="SpecialtyAndSemesterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="StudentsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ConnectionTables" EntityType="Self.ConnectionTable" />
+          <EntitySet Name="Disciplines" EntityType="Self.Discipline" />
+          <EntitySet Name="SpecialtyAndSemesters" EntityType="Self.SpecialtyAndSemester" />
+          <EntitySet Name="Students" EntityType="Self.Student" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+          <AssociationSet Name="DisciplineID_const" Association="Self.DisciplineID_const">
+            <End Role="Disciplines" EntitySet="Disciplines" />
+            <End Role="ConnectionTable" EntitySet="ConnectionTables" />
+          </AssociationSet>
+          <AssociationSet Name="SpecialtyAndSemesterID_const" Association="Self.SpecialtyAndSemesterID_const">
+            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemesters" />
+            <End Role="ConnectionTable" EntitySet="ConnectionTables" />
+          </AssociationSet>
+          <AssociationSet Name="TeacherID_const" Association="Self.TeacherID_const">
+            <End Role="Teachers" EntitySet="Teachers" />
+            <End Role="Disciplines" EntitySet="Disciplines" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Students_SpecialtyAndSemester" Association="Self.FK_Students_SpecialtyAndSemester">
+            <End Role="SpecialtyAndSemester" EntitySet="SpecialtyAndSemesters" />
+            <End Role="Students" EntitySet="Students" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StudentsModelStoreContainer" CdmEntityContainer="StudentsEntities">
+          <EntitySetMapping Name="ConnectionTables">
+            <EntityTypeMapping TypeName="StudentsModel.ConnectionTable">
+              <MappingFragment StoreEntitySet="ConnectionTable">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SpecialtyAndSemesterID" ColumnName="SpecialtyAndSemesterID" />
+                <ScalarProperty Name="DisciplineID" ColumnName="DisciplineID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disciplines">
+            <EntityTypeMapping TypeName="StudentsModel.Discipline">
+              <MappingFragment StoreEntitySet="Disciplines">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="HoursPerWeek" ColumnName="HoursPerWeek" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SpecialtyAndSemesters">
+            <EntityTypeMapping TypeName="StudentsModel.SpecialtyAndSemester">
+              <MappingFragment StoreEntitySet="SpecialtyAndSemester">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Students">
+            <EntityTypeMapping TypeName="StudentsModel.Student">
+              <MappingFragment StoreEntitySet="Students">
+                <ScalarProperty Name="FacultyNumber" ColumnName="FacultyNumber" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Age" ColumnName="Age" />
+                <ScalarProperty Name="Sex" ColumnName="Sex" />
+                <ScalarProperty Name="Specialty" ColumnName="Specialty" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="TelephoneNumber" ColumnName="TelephoneNumber" />
+                <ScalarProperty Name="SpecialtyAndSemesterId" ColumnName="SpecialtyAndSemesterId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="StudentsModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="StudentsModel.Teacher">
+              <MappingFragment StoreEntitySet="Teachers">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
