@@ -11,6 +11,7 @@ namespace StudentSystem.Controllers
     public class StudentsController : Controller
     {
         private const int FirstFacultyNumber = 5000;
+        private const int LastFacultyNumber = 9999;
         private readonly StudentsEntities db = new StudentsEntities();
 
         /// <summary>
@@ -122,7 +123,18 @@ namespace StudentSystem.Controllers
 
             var number = FirstFacultyNumber;
             if (db.Students.Any())
-                number = db.Students.OrderByDescending(x => x.FacultyNumber).First().FacultyNumber + 1;
+            {
+                var numbersDb = db.Students.Select(x => x.FacultyNumber).OrderByDescending(x => x);
+
+                for (int i = FirstFacultyNumber; i <= LastFacultyNumber; i++)
+                {
+                    if (!numbersDb.Contains(i))
+                    {
+                        number = i;
+                        break;
+                    }
+                }
+            }
 
             return View(new AddStudentViewModel {FacultyNumber = number, Age = 18});
         }
@@ -248,6 +260,28 @@ namespace StudentSystem.Controllers
             db.SaveChanges();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        /// <summary>
+        /// List students get action
+        /// </summary>
+        /// <returns>ActionResult</returns>
+        public ActionResult List()
+        {
+            var students = db.Students.Select(x => new ListStudentViewModel()
+            {
+                FacultyNumber = x.FacultyNumber,
+                FirstName = x.FirstName,
+                LastName = x.LastName,
+                Sex = x.Sex,
+                Semester = x.Semester,
+                Age = x.Age,
+                Specialty = x.Specialty,
+                Email = x.Email,
+                TelephoneNumber = x.TelephoneNumber
+            });
+
+            return View(students);
         }
     }
 }

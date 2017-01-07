@@ -34,7 +34,7 @@
           <Key>
             <PropertyRef Name="FacultyNumber" />
           </Key>
-          <Property Name="FacultyNumber" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FacultyNumber" Type="int" Nullable="false" />
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
@@ -149,7 +149,7 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           <Key>
             <PropertyRef Name="FacultyNumber" />
           </Key>
-          <Property Name="FacultyNumber" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FacultyNumber" Type="Int32" Nullable="false"/>
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
