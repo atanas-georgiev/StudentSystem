@@ -38,7 +38,7 @@
           <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Age" Type="int" Nullable="false" />
-          <Property Name="Sex" Type="nvarchar" MaxLength="5" Nullable="false" />
+          <Property Name="Sex" Type="nvarchar" MaxLength="6" Nullable="false" />
           <Property Name="Specialty" Type="nvarchar" MaxLength="35" Nullable="false" />
           <Property Name="Semester" Type="int" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="254" Nullable="false" />
@@ -153,7 +153,7 @@ warning 6035: The relationship 'Composite' has columns that are not part of the 
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Age" Type="Int32" Nullable="false" />
-          <Property Name="Sex" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Sex" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Specialty" Type="String" MaxLength="35" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Semester" Type="Int32" Nullable="false" />
           <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="true" Nullable="false" />

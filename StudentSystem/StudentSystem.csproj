@@ -169,7 +169,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Students\ActionType.cs" />
     <Compile Include="Models\Students\AddStudentViewModel.cs" />
+    <Compile Include="Models\Students\DetailsStudentViewModel.cs" />
+    <Compile Include="Models\Students\DisciplineViewModel.cs" />
+    <Compile Include="Models\Students\EditStudentViewModel.cs" />
+    <Compile Include="Models\Students\StudentViewModelBase.cs" />
+    <Compile Include="Models\Students\ActionStudentViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecialtyAndSemester.cs">
       <DependentUpon>Students.tt</DependentUpon>
@@ -208,6 +214,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\www.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -239,17 +246,10 @@
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Settings.aiis" />
     <Content Include="Views\Students\Create.cshtml" />
-    <Content Include="Views\Students\Delete.cshtml" />
-    <Content Include="Views\Students\Details.cshtml" />
     <Content Include="Views\Students\Edit.cshtml" />
-    <Content Include="Views\Students\Index.cshtml" />
     <EntityDeploy Include="Students.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Students.Designer.cs</LastGenOutput>
@@ -257,6 +257,8 @@
     <Content Include="Students.edmx.diagram">
       <DependentUpon>Students.edmx</DependentUpon>
     </Content>
+    <Content Include="Views\Students\Action.cshtml" />
+    <Content Include="Views\Students\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -266,7 +268,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
