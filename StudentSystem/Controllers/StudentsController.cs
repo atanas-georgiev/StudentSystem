@@ -261,27 +261,5 @@ namespace StudentSystem.Controllers
 
             return RedirectToAction("Index", "Home");
         }
-
-        /// <summary>
-        /// List students get action
-        /// </summary>
-        /// <returns>ActionResult</returns>
-        public ActionResult List()
-        {
-            var students = db.Students.Select(x => new ListStudentViewModel()
-            {
-                FacultyNumber = x.FacultyNumber,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Sex = x.Sex,
-                Semester = x.Semester,
-                Age = x.Age,
-                Specialty = x.Specialty,
-                Email = x.Email,
-                TelephoneNumber = x.TelephoneNumber
-            });
-
-            return View(students);
-        }
     }
 }

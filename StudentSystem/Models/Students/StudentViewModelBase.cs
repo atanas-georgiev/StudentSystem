@@ -41,7 +41,7 @@ namespace StudentSystem.Models.Students
 
         [Required]
         [Display(Name = "Telephone Number")]
-        [RegularExpression("^(87[6-9]|88[2-9]|89[0-9]|988)[0-9]{6}$", ErrorMessage = "Invalid Telephone number!")]
+        [RegularExpression("^(087[6-9]|088[2-9]|089[0-9]|0988)[0-9]{6}$", ErrorMessage = "Invalid Telephone number!")]
         public string TelephoneNumber { get; set; }
     }
 }
